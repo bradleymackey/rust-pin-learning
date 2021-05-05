@@ -281,3 +281,12 @@ where
 // This is why once we construct a Pin<&mut T> of something, we can never use it unpinned.
 // It's because the Pin provides a canonial, static reference to the underlying thing, which the
 // polling stuff in Futures needs to be static.
+
+// This is why Box<T> implements `Unpin` easily, because the reference on the Heap will be static
+// for the lifetime of the object, so unpinning returns the same address as before, so matter how
+// much the object is passed around.
+
+// In ultimate summary, this can be mostly disregarded.
+//
+// Just make sure `poll` types line up and use `Box::pin` if they don't.
+// That should get us 90% of the way to making our apps great!
